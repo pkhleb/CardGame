@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="CardData" load_steps=2 format=3 uid="uid://ro1ye2hr8x4w"]
+
+[ext_resource type="Script" uid="uid://0qutd026mk74" path="res://cards/CardData.gd" id="1_2j1kb"]
+
+[resource]
+script = ExtResource("1_2j1kb")
+name = "Stun"
+cost = 2
+card_type = 2
+value = 1
+description = "Stun enemy for 1 turn"
+metadata/_custom_type_script = "uid://0qutd026mk74"

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsb7gki6wys3k"]
+
+[ext_resource type="Script" uid="uid://j01cnljvwxof" path="res://ui/CardUI.gd" id="1_5b3sr"]
+
+[node name="CardUi" type="Button"]
+custom_minimum_size = Vector2(140, 160)
+autowrap_mode = 2
+script = ExtResource("1_5b3sr")

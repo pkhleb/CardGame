@@ -1,0 +1,79 @@
+[gd_scene load_steps=2 format=3 uid="uid://bt73xo0ybmi7m"]
+
+[ext_resource type="Script" uid="uid://b605ip4nbya6a" path="res://battle.gd" id="1_ip7xm"]
+
+[node name="Battle" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1007.0
+offset_bottom = 507.0
+script = ExtResource("1_ip7xm")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 902.0
+offset_bottom = 435.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="PlayerPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/PlayerPanel"]
+layout_mode = 2
+
+[node name="PlayerHPLabel" type="Label" parent="MarginContainer/VBoxContainer/PlayerPanel/VBoxContainer"]
+layout_mode = 2
+text = "Player HP: 40"
+
+[node name="PlayerBlockLabel" type="Label" parent="MarginContainer/VBoxContainer/PlayerPanel/VBoxContainer"]
+layout_mode = 2
+text = "Block: 0"
+
+[node name="EnemyPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/EnemyPanel"]
+layout_mode = 2
+
+[node name="EnemyIntentLabel" type="Label" parent="MarginContainer/VBoxContainer/EnemyPanel/VBoxContainer"]
+layout_mode = 2
+text = "Intent: Attack 6"
+
+[node name="EnemyHPLabel" type="Label" parent="MarginContainer/VBoxContainer/EnemyPanel/VBoxContainer"]
+layout_mode = 2
+text = "Enemy HP: 30"
+
+[node name="EnemyBlockLabel" type="Label" parent="MarginContainer/VBoxContainer/EnemyPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="EnergyLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Energy: 3"
+
+[node name="DrawPileLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Draw: 0"
+
+[node name="DiscardPileLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Discard: 0"
+
+[node name="MessageLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Battle started"
+
+[node name="HandPanel" type="PanelContainer" parent="MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 160)
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HandPanel"]
+layout_mode = 2
+
+[node name="HandContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HandPanel/ScrollContainer"]
+layout_mode = 2
+
+[node name="EndTurnButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "End Turn"
