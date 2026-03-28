@@ -74,6 +74,10 @@ layout_mode = 2
 [node name="HandContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer/HandPanel/ScrollContainer"]
 layout_mode = 2
 
+[node name="RestartButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Restart Battle"
+
 [node name="EndTurnButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 text = "End Turn"

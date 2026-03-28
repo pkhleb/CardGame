@@ -9,6 +9,7 @@ const CARD_UI_SCENE := preload("res://ui/CardUI.tscn")
 @onready var enemy_block_label: Label = $MarginContainer/VBoxContainer/EnemyPanel/VBoxContainer/EnemyBlockLabel
 @onready var energy_label: Label = $MarginContainer/VBoxContainer/EnergyLabel
 @onready var message_label: Label = $MarginContainer/VBoxContainer/MessageLabel
+@onready var restart_button: Button = $MarginContainer/VBoxContainer/RestartButton
 @onready var end_turn_button: Button = $MarginContainer/VBoxContainer/EndTurnButton
 @onready var hand_container: HBoxContainer = $MarginContainer/VBoxContainer/HandPanel/ScrollContainer/HandContainer
 @onready var draw_pile_label: Label = $MarginContainer/VBoxContainer/DrawPileLabel
@@ -37,6 +38,7 @@ var hand: Array[CardInstance] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	restart_button.pressed.connect(_on_restart_button_pressed)
 	end_turn_button.pressed.connect(_on_end_turn_pressed)
 
 	setup_battle()
@@ -297,3 +299,7 @@ func _on_end_turn_pressed() -> void:
 	if is_battle_over():
 		return
 	end_player_turn()
+
+func _on_restart_button_pressed() -> void:
+	setup_battle()
+	start_player_turn()
