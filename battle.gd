@@ -31,9 +31,9 @@ var enemy_block: int
 var enemy_intent: String
 var enemy_stunned: bool
 
-var draw_pile: Array[CardData] = []
-var discard_pile: Array[CardData] = []
-var hand: Array[CardData] = []
+var draw_pile: Array[CardInstance] = []
+var discard_pile: Array[CardInstance] = []
+var hand: Array[CardInstance] = []
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -44,7 +44,7 @@ func _ready() -> void:
 	set_message("Player turn")
 	refresh_hand_ui()
 	
-func _on_card_selected(card: CardData) -> void:
+func _on_card_selected(card: CardInstance) -> void:
 	play_card(card)
 
 func setup_battle() -> void:
@@ -65,16 +65,16 @@ func setup_battle() -> void:
 	discard_pile.clear()
 	hand.clear()
 
-	var attack: CardData = load("res://cards/attack_card.tres")
-	var defend: CardData = load("res://cards/defend_card.tres")
-	var stun: CardData = load("res://cards/stun_card.tres")
+	var attack_data: CardData = load("res://cards/attack_card.tres")
+	var defend_data: CardData = load("res://cards/defend_card.tres")
+	var stun_data: CardData = load("res://cards/stun_card.tres")
 
 	for i in 4:
-		draw_pile.append(attack)
+		draw_pile.append(make_card(attack_data))
 	for i in 4:
-		draw_pile.append(defend)
+		draw_pile.append(make_card(defend_data))
 	for i in 2:
-		draw_pile.append(stun)
+		draw_pile.append(make_card(stun_data))
 
 	draw_pile.shuffle()
 
@@ -112,6 +112,9 @@ func reshuffle_discard_into_draw() -> void:
 	discard_pile.clear()
 	draw_pile.shuffle()
 
+func make_card(card_data: CardData) -> CardInstance:
+	return CardInstance.new(card_data)
+
 func draw_one_card() -> void:
 	if draw_pile.is_empty():
 		reshuffle_discard_into_draw()
@@ -119,7 +122,7 @@ func draw_one_card() -> void:
 	if draw_pile.is_empty():
 		return
 
-	var card: CardData = draw_pile.pop_back()
+	var card: CardInstance = draw_pile.pop_back()
 	hand.append(card)
 	
 func draw_cards(amount: int) -> void:
@@ -137,37 +140,37 @@ func discard_hand() -> void:
 	refresh_ui()
 	refresh_hand_ui()
 	
-func discard_card_from_hand(card: CardData) -> void:
+func discard_card_from_hand(card: CardInstance) -> void:
 	hand.erase(card)
 	discard_pile.append(card)
 	refresh_ui()
 	refresh_hand_ui()
 	
-func play_card(card: CardData) -> void:
+func play_card(card: CardInstance) -> void:
 	if is_battle_over():
 		return
 
 	if not can_afford(card):
-		set_message("Not enough energy for %s" % card.name)
+		set_message("Not enough energy for %s" % card.get_name())
 		return
 
 	spend_energy(card.cost)
 
-	match card.card_type:
+	match card.get_type():
 		CardData.CardType.ATTACK:
 			damage_enemy(card.value)
 			if not is_battle_over():
-				set_message("%s deals %d damage" % [card.name, card.value])
+				set_message("%s deals %d damage" % [card.get_name(), card.value])
 
 		CardData.CardType.DEFEND:
 			player_block += card.value
-			set_message("%s gives %d block" % [card.name, card.value])
+			set_message("%s gives %d block" % [card.get_name(), card.value])
 			refresh_ui()
 
 		CardData.CardType.STUN:
 			enemy_stunned = true
 			update_enemy_intent()
-			set_message("%s stuns the enemy" % card.name)
+			set_message("%s stuns the enemy" % card.get_name())
 			refresh_ui()
 
 		_:
@@ -286,7 +289,7 @@ func spend_energy(amount: int) -> void:
 		player_energy = 0
 	refresh_ui()
 	
-func can_afford(card: CardData) -> bool:
+func can_afford(card: CardInstance) -> bool:
 	return player_energy >= card.cost
 	
 
