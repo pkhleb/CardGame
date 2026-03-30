@@ -21,7 +21,7 @@ var hand: Array[CardInstance] = []
 
 var message: String
 
-func setup_battle(player_hp_max: int, player_energy_max: int, enemy_hp_max: int, enemy_atk_dmg: int) -> void:
+func setup_battle(deck_data: Array[CardData], player_hp_max: int, player_energy_max: int, enemy_hp_max: int, enemy_atk_dmg: int) -> void:
 	battle_over = false
 	
 	player_max_energy = player_energy_max
@@ -38,18 +38,10 @@ func setup_battle(player_hp_max: int, player_energy_max: int, enemy_hp_max: int,
 	draw_pile.clear()
 	discard_pile.clear()
 	hand.clear()
-
-	var attack_data: CardData = load("res://cards/attack_card.tres")
-	var defend_data: CardData = load("res://cards/defend_card.tres")
-	var stun_data: CardData = load("res://cards/stun_card.tres")
-
-	for i in 4:
-		draw_pile.append(make_card(attack_data))
-	for i in 4:
-		draw_pile.append(make_card(defend_data))
-	for i in 2:
-		draw_pile.append(make_card(stun_data))
-
+	
+	for card_data in deck_data:
+		draw_pile.append(make_card(card_data))
+		
 	draw_pile.shuffle()
 	message = "Battle started"
 	
