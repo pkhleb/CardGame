@@ -17,6 +17,8 @@ const CARD_UI_SCENE := preload("res://ui/CardUI.tscn")
 
 var state: BattleState
 
+var player_deck: Array[CardData] = []
+
 const PLAYER_MAX_HP := 40
 const PLAYER_MAX_ENERGY := 3
 const ENEMY_MAX_HP := 30
@@ -29,16 +31,31 @@ func _ready() -> void:
 	end_turn_button.pressed.connect(_on_end_turn_pressed)
 
 	state = BattleState.new()
+	build_starting_deck()
 	setup_battle()
 	state.start_player_turn()
 	refresh_all()
+	
+func build_starting_deck() -> void:
+	player_deck.clear()
+	
+	var attack_data: CardData = load("res://cards/attack_card.tres")
+	var defend_data: CardData = load("res://cards/defend_card.tres")
+	var stun_data: CardData = load("res://cards/stun_card.tres")
+	
+	for i in 4:
+		player_deck.append(attack_data)
+	for i in 4:
+		player_deck.append(defend_data)
+	for i in 2:
+		player_deck.append(stun_data)
 	
 func _on_card_selected(card: CardInstance) -> void:
 	state.play_card(card)
 	refresh_all()
 
 func setup_battle() -> void:
-	state.setup_battle(PLAYER_MAX_HP, PLAYER_MAX_ENERGY, ENEMY_MAX_HP, ENEMY_ATTACK_DAMAGE)
+	state.setup_battle(player_deck, PLAYER_MAX_HP, PLAYER_MAX_ENERGY, ENEMY_MAX_HP, ENEMY_ATTACK_DAMAGE)
 	refresh_all()
 
 func refresh_ui() -> void:
