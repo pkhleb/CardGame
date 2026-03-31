@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://clhpd5svqqv20"]
+
+[ext_resource type="Script" uid="uid://b0ywxc5qngo11" path="res://run/RunController.gd" id="1_mow0x"]
+
+[node name="RunController" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_mow0x")
