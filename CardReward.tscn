@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://yngxs7tvbn31"]
+
+[ext_resource type="Script" uid="uid://dtl1wjo5jf2ll" path="res://CardReward.gd" id="1_0bwht"]
+
+[node name="CardReward" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_0bwht")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Choose a card"
+
+[node name="RewardContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="SkipButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Skip"

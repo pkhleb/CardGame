@@ -1,5 +1,8 @@
 extends Control
 
+signal battle_won
+signal battle_lost
+
 const CARD_UI_SCENE := preload("res://ui/CardUI.tscn")
 
 @onready var player_hp_label: Label = $MarginContainer/VBoxContainer/PlayerPanel/VBoxContainer/PlayerHPLabel
@@ -16,6 +19,8 @@ const CARD_UI_SCENE := preload("res://ui/CardUI.tscn")
 @onready var discard_pile_label: Label = $MarginContainer/VBoxContainer/DiscardPileLabel
 
 var state: BattleState
+
+var result_emitted: bool = false
 
 var deck_data: Array[CardData] = []
 
@@ -35,18 +40,47 @@ func _ready() -> void:
 func _on_card_selected(card: CardInstance) -> void:
 	state.play_card(card)
 	refresh_all()
+	handle_battle_end()
+	
+func _on_end_turn_pressed() -> void:
+	if state.is_battle_over():
+		return
+	state.end_player_turn()
+	refresh_all()
+	handle_battle_end()
+
+func _on_restart_button_pressed() -> void:
+	setup_battle()
+	state.start_player_turn()
+	refresh_all()
 
 func configure_battle(new_deck_data: Array[CardData]) -> void:
 	deck_data = new_deck_data.duplicate()
 
 func setup_battle() -> void:
+	result_emitted = false
 	state.setup_battle(deck_data, PLAYER_MAX_HP, PLAYER_MAX_ENERGY, ENEMY_MAX_HP, ENEMY_ATTACK_DAMAGE)
+	refresh_all()
 
 func start_battle_with_deck(new_deck: Array[CardData]) -> void:
 	configure_battle(new_deck)
 	setup_battle()
 	state.start_player_turn()
 	refresh_all()
+	
+func handle_battle_end() -> void:
+	if result_emitted:
+		return
+		
+	if not state.is_battle_over():
+		return
+	
+	result_emitted = true	
+	
+	if state.enemy_hp <= 0:
+		battle_won.emit()
+	elif state.player_hp <= 0:
+		battle_lost.emit()
 
 func refresh_ui() -> void:
 	end_turn_button.disabled = state.is_battle_over()
@@ -77,14 +111,3 @@ func refresh_hand_ui() -> void:
 func refresh_all() -> void:
 	refresh_ui()
 	refresh_hand_ui()
-
-func _on_end_turn_pressed() -> void:
-	if state.is_battle_over():
-		return
-	state.end_player_turn()
-	refresh_all()
-
-func _on_restart_button_pressed() -> void:
-	setup_battle()
-	state.start_player_turn()
-	refresh_all()
